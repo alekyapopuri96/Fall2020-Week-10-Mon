@@ -27,15 +27,15 @@
 <!--palmer_penguin_species: https://raw.githubusercontent.com/datavizpyr/data/master/palmer_penguin_species.tsv -->
 <table width="60vw" border=".01px" >
     <tr>
-        <td><svg width="500px" height="500px"  id="left" viewBox="0 0 1000 1000"></svg></td>
+        <td><svg width="500px" height="500px"  id="top" viewBox="0 0 1000 1000"></svg></td>
 
     </tr>
     <tr>
-        <td><svg width="500px" height="500px" viewBox="0 0 1000 1000" id="mid"></svg></td>
+        <td><svg width="500px" height="500px" viewBox="0 0 1000 1000" id="middle"></svg></td>
 
     </tr>
     <tr>
-        <td><svg width="500px" height="500px" viewBox="0 0 1000 1000" id="right"></svg></td>
+        <td><svg width="500px" height="500px" viewBox="0 0 1000 1000" id="down"></svg></td>
 
     </tr>
 </table>
@@ -45,21 +45,21 @@
     d3.tsv(palmer_penguin_species).then(main)
 
     // Subplots
-    let fig_left = d3.select("#left")
+    let fig_top = d3.select("#top")
         .append("g")
         .append('rect')
         .attr("class","fig")
         .attr("width","100%")
         .attr("height","100%")
 
-    let fig_mid = d3.select("#mid")
+    let fig_mid = d3.select("#middle")
         .append("g")
         .append('rect')
         .attr("class","fig")
         .attr("width","100%")
         .attr("height","100%")
 
-    let fig_right = d3.select("#right")
+    let fig_down = d3.select("#down")
         .append("g")
         .append('rect')
         .attr("class","fig")
@@ -131,21 +131,21 @@
 
 
         scatter_plot(culmen_length_mm_ade_species, culmen_depth_mm_ade_species, flipper_length_mm_ade_species, island_ade_species,
-            'left',
+            'top',
             title='Adelie',
             xLabel="culmen_length_mm",
             yLabel="culmen_depth_mm");
 
 
         scatter_plot(culmen_length_mm_gen_species, culmen_depth_mm_gen_species, flipper_length_mm_gen_species, island_gen_species,
-            'mid',
+            'middle',
             title='Gentoo',
             xLabel="culmen_length_mm",
             yLabel="culmen_depth_mm");
 
 
         scatter_plot(culmen_length_mm_chi_species, culmen_depth_mm_chi_species, flipper_length_mm_chi_species, island_chi_species,
-            'right',
+            'down',
             title='Chinstrap',
             xLabel="culmen_length_mm",
             yLabel="culmen_depth_mm");
