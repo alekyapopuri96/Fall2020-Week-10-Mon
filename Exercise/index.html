@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>joint plot</title>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="scatter_plot.js?2"></script>
+    <script src="bar_plot.js?2"></script>
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .fig{
+            fill: #faf8f8;
+        }
+        table{
+            border: 1px solid #d2bcbc;
+            border-collapse: collapse;
+        }
+    </style>
+
+
+
+</head>
+<body>
+
+<!-- https://seaborn.pydata.org/generated/seaborn.jointplot.html -->
+<!--palmer_penguin_species: https://raw.githubusercontent.com/datavizpyr/data/master/palmer_penguin_species.tsv -->
+<table width="60vw" border=".01px" >
+    <tr>
+        <td><svg width="500px" height="500px"  id="left" viewBox="0 0 1000 1000"></svg></td>
+
+    </tr>
+    <tr>
+        <td><svg width="500px" height="500px" viewBox="0 0 1000 1000" id="mid"></svg></td>
+
+    </tr>
+    <tr>
+        <td><svg width="500px" height="500px" viewBox="0 0 1000 1000" id="right"></svg></td>
+
+    </tr>
+</table>
+
+<script>
+    let palmer_penguin_species = "./palmer_penguin_species.tsv";
+    d3.tsv(palmer_penguin_species).then(main)
+
+    // Subplots
+    let fig_left = d3.select("#left")
+        .append("g")
+        .append('rect')
+        .attr("class","fig")
+        .attr("width","100%")
+        .attr("height","100%")
+
+    let fig_mid = d3.select("#mid")
+        .append("g")
+        .append('rect')
+        .attr("class","fig")
+        .attr("width","100%")
+        .attr("height","100%")
+
+    let fig_right = d3.select("#right")
+        .append("g")
+        .append('rect')
+        .attr("class","fig")
+        .attr("width","100%")
+        .attr("height","100%")
+
+    function main(data){
+
+        let species = d3.map(data,function (d){
+            return d.species})
+
+        // code island values
+        data.forEach( function(element){
+            if (element.island === "Torgersen") {
+                element.island = 0
+            } else if (element.island === "Biscoe") {
+                element.island = 1
+            } else {
+                element.island = 2
+            }
+        })
+
+        // filter the species into 3 datasets
+        let ade_species = d3.filter(data, function(d){
+            if(d.species == 'Adelie'){
+                return d;
+            }
+        })
+        let gen_species = d3.filter(data, function(d){
+            if(d.species == 'Gentoo'){
+                return d;
+            }
+        })
+        let chi_species = d3.filter(data, function(d){
+            if(d.species == 'Chinstrap'){
+                return d;
+            }
+        })
+
+
+        let culmen_length_mm_ade_species = d3.map(ade_species,function (d){
+            return +d.culmen_length_mm})
+        let culmen_depth_mm_ade_species = d3.map(ade_species,function (d){
+            return +d.culmen_depth_mm})
+        let flipper_length_mm_ade_species = d3.map(ade_species,function (d){
+            return +d.flipper_length_mm})
+        let island_ade_species = d3.map(ade_species,function (d){
+            return d.island})
+
+
+        let culmen_length_mm_gen_species = d3.map(gen_species,function (d){
+            return +d.culmen_length_mm})
+        let culmen_depth_mm_gen_species = d3.map(gen_species,function (d){
+            return +d.culmen_depth_mm})
+        let flipper_length_mm_gen_species = d3.map(gen_species,function (d){
+            return +d.flipper_length_mm})
+        let island_gen_species = d3.map(gen_species,function (d){
+            return d.island})
+
+        let culmen_length_mm_chi_species = d3.map(chi_species,function (d){
+            return +d.culmen_length_mm})
+        let culmen_depth_mm_chi_species = d3.map(chi_species,function (d){
+            return +d.culmen_depth_mm})
+        let flipper_length_mm_chi_species = d3.map(chi_species,function (d){
+            return +d.flipper_length_mm})
+        let island_chi_species = d3.map(chi_species,function (d){
+            return d.island})
+
+
+
+        scatter_plot(culmen_length_mm_ade_species, culmen_depth_mm_ade_species, flipper_length_mm_ade_species, island_ade_species,
+            'left',
+            title='Adelie',
+            xLabel="culmen_length_mm",
+            yLabel="culmen_depth_mm");
+
+
+        scatter_plot(culmen_length_mm_gen_species, culmen_depth_mm_gen_species, flipper_length_mm_gen_species, island_gen_species,
+            'mid',
+            title='Gentoo',
+            xLabel="culmen_length_mm",
+            yLabel="culmen_depth_mm");
+
+
+        scatter_plot(culmen_length_mm_chi_species, culmen_depth_mm_chi_species, flipper_length_mm_chi_species, island_chi_species,
+            'right',
+            title='Chinstrap',
+            xLabel="culmen_length_mm",
+            yLabel="culmen_depth_mm");
+
+    }
+</script>
+
+
+</body>
+</html>
+
