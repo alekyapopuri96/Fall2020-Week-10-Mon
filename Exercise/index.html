@@ -71,7 +71,7 @@
         let species = d3.map(data,function (d){
             return d.species})
 
-        // code island values
+
         data.forEach( function(element){
             if (element.island === "Torgersen") {
                 element.island = 0
@@ -82,7 +82,7 @@
             }
         })
 
-        // filter the species into 3 datasets
+
         let ade_species = d3.filter(data, function(d){
             if(d.species == 'Adelie'){
                 return d;
